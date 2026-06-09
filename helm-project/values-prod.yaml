@@ -1,0 +1,20 @@
+service:
+  type: LoadBalancer
+  port: 80
+image:
+  repository: nikhilborgave/scenario2-node
+  pullPolicy: IfNotPresent
+  tag: v1.0.0
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+autoscaling:
+  enabled: true
+hpa:
+  minReplicas: 3
+  maxReplicas: 10
+  averageUtilization: 70
+config:
+  logLevel: info
+  environment: prod

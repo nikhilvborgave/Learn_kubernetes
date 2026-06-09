@@ -1,0 +1,19 @@
+replicaCount: 1
+service:
+  type: ClusterIP
+  port: 80
+image:
+  repository: nikhilborgave/scenario2-node
+  pullPolicy: Always
+  tag: latest
+podLables: {}
+resources: {}
+ingress:
+  enabled: false
+autoscaling:
+  enabled: false
+config:
+  logLevel: debug
+  environment: dev
+volumeMounts: {}
+volumes: {}
