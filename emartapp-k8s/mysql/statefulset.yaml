@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: emartdb
+spec:
+  serviceName: "emartdb-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emartdb
+  template:
+    metadata:
+      labels:
+        app: emartdb
+    spec:
+      containers:
+        - name: db-container
+          image: mysql:8.0.33
+          envFrom:
+            - secretRef:
+                name: mysql-secret
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-storage
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: emongo
+spec:
+  serviceName: "emongo-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emongo
+  template:
+    metadata:
+      labels:
+        app: emongo
+    spec:
+      containers:
+        - name: db-container
+          image: mongo:4
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: "epoc"
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-storage
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 1Gi

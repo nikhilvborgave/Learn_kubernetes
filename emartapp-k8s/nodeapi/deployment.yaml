@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api-container
+          image: nikhilborgave/emartapp-nodeapi:latest
+          env:
+            - name: MONGO_URL
+              value: mongodb://emongo-service:27017/epoc
+          ports:
+            - containerPort: 5000

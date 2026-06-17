@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    upstream client {
+      server client-service:4200;
+    }
+    server {
+      listen 80;
+      location / {
+        proxy_pass http://client;
+        }
+        location /api {
+        proxy_pass http://api-service:5000;
+        }
+        location /webapi {
+        proxy_pass http://webapi-service:9000;
+        }
+    }
